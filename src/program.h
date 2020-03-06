@@ -43,6 +43,7 @@ class Program {
 
         // Print-out methods
         // To get valid test, all of them should be called (the order doesn't matter)
+        // FIXME: Check for tiger syntax: Change definitions
         void emit_func ();
         void emit_decl ();
         void emit_main ();

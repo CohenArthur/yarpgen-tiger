@@ -27,6 +27,7 @@ limitations under the License.
 
 using namespace yarpgen;
 
+// FIXME: Check for tiger syntax
 std::string Type::get_name () {
     std::string ret = "";
     ret += is_static ? "static " : "";
@@ -88,6 +89,7 @@ std::string StructType::StructMember::get_definition (std::string offset) {
     return ret;
 }
 
+// FIXME: Check for tiger syntax
 std::string StructType::get_definition (std::string offset) {
     std::string ret = "";
     if (options->is_c())
@@ -117,6 +119,7 @@ static std::string static_memb_init_iter(std::shared_ptr<Data> member) {
     } else if (member->get_class_id() == Data::STRUCT) {
         std::shared_ptr<Struct> member_struct = std::static_pointer_cast<Struct>(member);
         // Recursively walk over all members
+        // FIXME: Check for tiger syntax
         ret += "{";
         uint64_t member_count = member_struct->get_member_count();
         for (unsigned int i = 0; i < member_count; ++i) {
@@ -146,6 +149,7 @@ static std::string static_memb_check_iter(std::string offset, std::string parent
     std::string ret;
     parent_str = parent_str + member->get_name();
     if (member->get_class_id() == Data::VAR)
+        // FIXME: Check for tiger syntax
         ret += offset + "hash(&seed, " + parent_str + ");\n";
     else if (member->get_class_id() == Data::STRUCT) {
         std::shared_ptr<Struct> member_struct = std::static_pointer_cast<Struct>(member);
@@ -246,6 +250,7 @@ std::shared_ptr<StructType> StructType::generate (std::shared_ptr<Context> ctx,
         }
         primary_type->set_cv_qual(primary_cv_qual);
         primary_type->set_is_static(primary_static_spec);
+        // FIXME: Check for tiger syntax
         struct_type->add_member(primary_type, "member_" + std::to_string(name_handler.get_struct_type_count()) + "_" +
                                               std::to_string(member_count++));
     }
@@ -1845,6 +1850,7 @@ void BitField::init_type (IntegerTypeID it_id, uint32_t _bit_size) {
     }
 }
 
+// FIXME: Check for tiger syntax
 template <class T>
 static std::string dbg_dump_helper (std::string name, int id, T min, T max, uint32_t bit_size, bool is_signed) {
     std::string ret = "";
@@ -2016,6 +2022,7 @@ bool BitField::can_fit_in_int (BuiltinType::ScalarTypedVal val, bool is_unsigned
     }
 }
 
+// FIXME: Check for tiger syntax
 void BitField::dbg_dump () {
     std::string ret = "";
     ret += "name: " + name + "\n";
@@ -2086,6 +2093,7 @@ void BitField::dbg_dump () {
     std::cout << ret;
 }
 
+// FIXME: Check for tiger syntax
 ArrayType::ArrayType(std::shared_ptr<Type> _base_type, uint32_t _size, Kind _kind) :
                      Type (Type::ARRAY_TYPE), base_type(_base_type), size(_size), kind(_kind) {
     switch (kind) {
@@ -2110,6 +2118,7 @@ ArrayType::ArrayType(std::shared_ptr<Type> _base_type, uint32_t _size, Kind _kin
 
     name += base_type->get_simple_name();
 
+    // FIXME: Check for tiger syntax
     switch (kind) {
         case C_ARR:
             break;
@@ -2130,6 +2139,7 @@ std::string ArrayType::get_type_suffix() {
     return kind == C_ARR ? " [" + std::to_string(size) + "]" : "";
 }
 
+// FIXME: Check for tiger syntax
 void ArrayType::dbg_dump() {
     std::string ret = "";
     ret += "kind: " + std::to_string(kind) + "\n";
@@ -2177,6 +2187,7 @@ void PointerType::init() {
     depth += base_ptr_type->get_depth();
 }
 
+// FIXME: Check for tiger syntax
 void PointerType::dbg_dump() {
     std::cout << "Pointer type: " << name << std::endl;
     std::cout << "Pointee type:\n";

@@ -31,6 +31,7 @@ Options::Options() : standard_id(CXX11), mode_64bit(true),
                                 plane_yarpgen_version.end());
 }
 
+// FIXME: Check for tiger syntax
 const std::map<std::string, Options::StandardID> Options::str_to_standard = {
     {"c99", C99},
     {"c11", C11},

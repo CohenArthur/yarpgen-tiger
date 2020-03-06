@@ -26,6 +26,7 @@ class Context;
 
 class Data {
     public:
+        // FIXME: Check for tiger syntax
         enum VarClassID {
             VAR, STRUCT, ARRAY, POINTER, MAX_CLASS_ID
         };
@@ -65,6 +66,7 @@ class Struct : public Data {
         std::vector<std::shared_ptr<Data>> members;
 };
 
+// FIXME: Check for tiger syntax
 class ScalarVariable : public Data {
     public:
         ScalarVariable (std::string _name, std::shared_ptr<IntegerType> _type);
@@ -89,6 +91,7 @@ class ScalarVariable : public Data {
         bool was_changed;
 };
 
+// FIXME: Check for tiger syntax
 class Array : public Data {
     public:
         Array (std::string _name, std::shared_ptr<ArrayType> _type, std::shared_ptr<Context> ctx = nullptr);
@@ -107,6 +110,7 @@ class Array : public Data {
         std::vector<std::shared_ptr<Data>> elements;
 };
 
+// FIXME: Check for tiger syntax
 class Pointer : public Data {
     public:
         Pointer (std::string _name, std::shared_ptr<Data> _pointee);

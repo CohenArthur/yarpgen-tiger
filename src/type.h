@@ -34,6 +34,7 @@ class Struct;
 // Abstract class, serves as a common ancestor for all types.
 class Type {
     public:
+        // FIXME: Check for tiger syntax
         // ID for top-level Type kind
         enum TypeID {
             BUILTIN_TYPE,
@@ -43,6 +44,7 @@ class Type {
             MAX_TYPE_ID
         };
 
+        // FIXME: Check for tiger syntax
         // CV-qualifiers.
         enum CV_Qual {
             NTHG,
@@ -52,11 +54,13 @@ class Type {
             MAX_CV_QUAL
         };
 
+        // FIXME: Check for tiger syntax
         // ID for builtin types (in C terminology they "atomic", in C++ they are "fundamental" types)
         enum BuiltinTypeID {
             Integer, Max_BuiltinTypeID
         };
 
+        // FIXME: Check for tiger syntax
         enum IntegerTypeID {
             BOOL,
             // Note, char and signed char types are not distinguished,
@@ -119,6 +123,7 @@ class Type {
         TypeID id;
 };
 
+// FIXME: Check for tiger syntax
 // Class which represents structures
 class StructType : public Type {
     public:
@@ -348,6 +353,7 @@ class BitField : public IntegerType {
         uint32_t bit_field_width;
 };
 
+// FIXME: Check for tiger syntax
 // Following classes represents standard integer types and bool
 // TODO: maybe all this classes should be singletons?
 class TypeBOOL : public IntegerType {
@@ -368,6 +374,7 @@ class TypeBOOL : public IntegerType {
         }
 };
 
+// FIXME: Check for tiger syntax
 class TypeCHAR : public IntegerType {
     public:
         TypeCHAR () : IntegerType(BuiltinType::IntegerTypeID::CHAR) { init_type (); }
@@ -386,6 +393,7 @@ class TypeCHAR : public IntegerType {
         }
 };
 
+// FIXME: Check for tiger syntax
 class TypeUCHAR : public IntegerType {
     public:
         TypeUCHAR () : IntegerType(BuiltinType::IntegerTypeID::UCHAR) { init_type (); }
@@ -404,6 +412,7 @@ class TypeUCHAR : public IntegerType {
         }
 };
 
+// FIXME: Check for tiger syntax
 class TypeSHRT : public IntegerType {
     public:
         TypeSHRT () : IntegerType(BuiltinType::IntegerTypeID::SHRT) { init_type (); }
@@ -422,6 +431,7 @@ class TypeSHRT : public IntegerType {
         }
 };
 
+// FIXME: Check for tiger syntax
 class TypeUSHRT : public IntegerType {
     public:
         TypeUSHRT () : IntegerType(BuiltinType::IntegerTypeID::USHRT) { init_type (); }
@@ -440,6 +450,7 @@ class TypeUSHRT : public IntegerType {
         }
 };
 
+// FIXME: Check for tiger syntax
 class TypeINT : public IntegerType {
     public:
         TypeINT () : IntegerType(BuiltinType::IntegerTypeID::INT) { init_type (); }
@@ -458,6 +469,7 @@ class TypeINT : public IntegerType {
         }
 };
 
+// FIXME: Check for tiger syntax
 class TypeUINT : public IntegerType {
     public:
         TypeUINT () : IntegerType(BuiltinType::IntegerTypeID::UINT) { init_type (); }
@@ -476,6 +488,7 @@ class TypeUINT : public IntegerType {
         }
 };
 
+// FIXME: Check for tiger syntax
 class TypeLINT : public IntegerType {
     public:
         TypeLINT () : IntegerType(BuiltinType::IntegerTypeID::LINT) { init_type (); }
@@ -501,6 +514,7 @@ class TypeLINT : public IntegerType {
         }
 };
 
+// FIXME: Check for tiger syntax
 class TypeULINT : public IntegerType {
     public:
         TypeULINT () : IntegerType(BuiltinType::IntegerTypeID::ULINT) { init_type (); }
@@ -526,6 +540,7 @@ class TypeULINT : public IntegerType {
         }
 };
 
+// FIXME: Check for tiger syntax
 class TypeLLINT : public IntegerType {
     public:
         TypeLLINT () : IntegerType(BuiltinType::IntegerTypeID::LLINT) { init_type (); }
@@ -544,6 +559,7 @@ class TypeLLINT : public IntegerType {
         }
 };
 
+// FIXME: Check for tiger syntax
 class TypeULLINT : public IntegerType {
     public:
         TypeULLINT () : IntegerType(BuiltinType::IntegerTypeID::ULLINT) { init_type (); }
@@ -562,6 +578,7 @@ class TypeULLINT : public IntegerType {
         }
 };
 
+// FIXME: Check for tiger syntax
 // ArrayType represents arrays of all kinds.
 //TODO: 1) maybe we should split it to several classes?
 //      2) nowadays it can represent only one-dimensional array
@@ -597,6 +614,7 @@ class ArrayType : public Type {
         Kind kind;
 };
 
+// FIXME: Check for tiger syntax
 // Class which represents pointers
 class PointerType : public Type {
     public:

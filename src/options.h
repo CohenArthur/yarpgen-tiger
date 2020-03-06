@@ -43,6 +43,7 @@ struct Options {
     // This map matches StandardIDs to string literals for them
     static const std::map<std::string, StandardID> str_to_standard;
 
+    // FIXME: Check for tiger syntax: Add is_tig() and such
     Options();
     bool is_c ();
     bool is_cxx ();

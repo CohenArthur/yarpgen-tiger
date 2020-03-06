@@ -137,6 +137,7 @@ class NameHandler {
         NameHandler(const NameHandler& root) = delete;
         NameHandler& operator=(const NameHandler&) = delete;
 
+        // FIXME: Check for tiger syntax
         void set_test_func_prefix (uint32_t prefix) { test_func_prefix = common_test_func_prefix +
                                                                          std::to_string(prefix) + "_"; }
         std::string get_struct_type_name() { return test_func_prefix + "struct_" + std::to_string(++struct_type_count); }

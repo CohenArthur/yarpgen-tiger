@@ -178,6 +178,7 @@ SymbolTable::ExprVector SymbolTable::get_all_var_use_exprs(bool ignore_tmp_objs)
     return ret;
 }
 
+// FIXME: Check for tiger syntax
 void SymbolTable::emit_variable_extern_decl (std::ostream& stream, std::string offset) {
     for (const auto &i : variable) {
         DeclStmt decl (i, nullptr, true);
@@ -198,30 +199,35 @@ void SymbolTable::emit_variable_def (std::ostream& stream, std::string offset) {
     }
 }
 
+// FIXME: Check for tiger syntax
 void SymbolTable::emit_variable_check (std::ostream& stream, std::string offset) {
     for (const auto &i : variable) {
         stream << offset + "hash(&seed, " + i->get_name() + ");\n";
     }
 }
 
+// FIXME: Check for tiger syntax
 void SymbolTable::emit_struct_type_static_memb_def (std::ostream& stream, std::string offset) {
     for (const auto &i : struct_type) {
         stream << i->get_static_memb_def() + "\n";
     }
 }
 
+// FIXME: Check for tiger syntax
 void SymbolTable::emit_struct_type_static_memb_check (std::ostream& stream, std::string offset) {
     for (const auto &i : struct_type) {
         stream << i->get_static_memb_check(offset) + "\n";
     }
 }
 
+// FIXME: Check for tiger syntax
 void SymbolTable::emit_struct_type_def (std::ostream& stream, std::string offset) {
     for (const auto &i : struct_type) {
         stream << offset + i->get_definition() + "\n";
     }
 }
 
+// FIXME: Check for tiger syntax
 void SymbolTable::emit_struct_def (std::ostream& stream, std::string offset) {
     for (const auto &i : structs) {
         DeclStmt decl (i, nullptr, false);
@@ -231,6 +237,7 @@ void SymbolTable::emit_struct_def (std::ostream& stream, std::string offset) {
     }
 }
 
+// FIXME: Check for tiger syntax
 void SymbolTable::emit_struct_extern_decl (std::ostream& stream, std::string offset) {
     for (const auto &i : structs) {
         DeclStmt decl (i, nullptr, true);
@@ -268,6 +275,7 @@ void SymbolTable::emit_single_struct_init (std::shared_ptr<MemberExpr> parent_me
             AssignExpr assign (member_expr, const_init, false);
             stream << offset;
             assign.emit(stream);
+            // FIXME: Check for tiger syntax
             stream << ";\n";
         }
     }
@@ -297,6 +305,7 @@ void SymbolTable::emit_single_struct_check (std::shared_ptr<MemberExpr> parent_m
             emit_single_struct_check(member_expr, std::static_pointer_cast<Struct>(struct_var->get_member(j)),
                                      stream, offset);
         else {
+            // FIXME: Check for tiger syntax
             stream << offset + "hash(&seed, ";
             member_expr->emit(stream);
             stream << ");\n";
@@ -304,6 +313,7 @@ void SymbolTable::emit_single_struct_check (std::shared_ptr<MemberExpr> parent_m
     }
 }
 
+// FIXME: Check for tiger syntax
 void SymbolTable::emit_array_extern_decl (std::ostream& stream, std::string offset) {
     for (const auto &i : array) {
         DeclStmt decl (i, nullptr, true);
@@ -313,6 +323,7 @@ void SymbolTable::emit_array_extern_decl (std::ostream& stream, std::string offs
     }
 }
 
+// FIXME: Check for tiger syntax
 void SymbolTable::emit_array_def (std::ostream& stream, std::string offset) {
     for (const auto &i : array) {
         std::shared_ptr<StubExpr> stub_init = nullptr;
@@ -350,6 +361,7 @@ void SymbolTable::emit_array_def (std::ostream& stream, std::string offset) {
     }
 }
 
+// FIXME: Check for tiger syntax
 void SymbolTable::emit_array_check (std::ostream& stream, std::string offset) {
     for (const auto &i : array)
         for (unsigned int j = 0; j < i->get_elements_count(); ++j) {
@@ -369,6 +381,7 @@ void SymbolTable::emit_array_check (std::ostream& stream, std::string offset) {
         }
 }
 
+// FIXME: Check for tiger syntax
 void SymbolTable::emit_ptr_extern_decl (std::ostream& stream, std::string offset) {
     for (unsigned int i = 0; i < pointers.ptr.size(); ++i) {
         DeclStmt decl (pointers.ptr.at(i), nullptr, true);
@@ -378,6 +391,7 @@ void SymbolTable::emit_ptr_extern_decl (std::ostream& stream, std::string offset
     }
 }
 
+// FIXME: Check for tiger syntax
 void SymbolTable::emit_ptr_def (std::ostream& stream, std::string offset) {
     for (unsigned int i = 0; i < pointers.ptr.size(); ++i) {
         DeclStmt decl (pointers.ptr.at(i), pointers.init_expr.at(i));
@@ -387,6 +401,7 @@ void SymbolTable::emit_ptr_def (std::ostream& stream, std::string offset) {
     }
 }
 
+// FIXME: Check for tiger syntax
 void SymbolTable::emit_ptr_check (std::ostream& stream, std::string offset) {
     for (unsigned int i = 0; i < pointers.ptr.size(); ++i) {
         stream << offset + "hash(&seed, ";

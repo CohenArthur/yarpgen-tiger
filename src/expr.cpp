@@ -188,6 +188,7 @@ std::shared_ptr<TypeCastExpr> TypeCastExpr::generate (std::shared_ptr<Context> c
 void TypeCastExpr::emit (std::ostream& stream, std::string offset) {
     std::string ret = offset;
     //TODO: add parameter to gen_policy
+    // FIXME: Check for tiger syntax
     if (!is_implicit || is_implicit)
         stream << "(" << value->get_type()->get_simple_name() << ") ";
     stream << "(";
@@ -352,6 +353,7 @@ std::string ConstExpr::to_string(T T_val, T min, std::string suffix) {
         return std::to_string(T_val) + suffix;
     if (T_val != min)
         return std::to_string(T_val) + suffix;
+    // FIXME: Check for tiger syntax
     return "(" + std::to_string(min + 1) + suffix + " - 1" + suffix + ")";
 }
 
@@ -362,6 +364,7 @@ void ConstExpr::emit (std::ostream& stream, std::string offset) {
     auto val = scalar_val->get_cur_value().val;
     switch (scalar_val->get_type()->get_int_type_id()) {
         case IntegerType::IntegerTypeID::BOOL:
+            // FIXME: Check for tiger syntax
             stream << (val.bool_val ? "true" : "false");
             break;
         case IntegerType::IntegerTypeID::CHAR:
@@ -673,6 +676,7 @@ UB UnaryExpr::propagate_value () {
 // This trick always works for unary operations.
 void UnaryExpr::emit (std::ostream& stream, std::string offset) {
     std::string op_str = offset;
+    // FIXME: Check for tiger syntax: Fix operators such as != etc
     switch (op) {
         case PreInc:
         case PostInc:
@@ -699,11 +703,13 @@ void UnaryExpr::emit (std::ostream& stream, std::string offset) {
             break;
     }
     std::string ret = "";
+    // FIXME: Check for tiger syntax
     if (op == PostInc || op == PostDec) {
         stream << "(";
         arg->emit(stream);
         stream << ")" + op_str;
     }
+    // FIXME: Check for tiger syntax
     else {
         stream << op_str + "(";
         arg->emit(stream);
@@ -966,6 +972,7 @@ UB BinaryExpr::propagate_value () {
     std::cout << "rhs id: " << arg1->get_value()->get_type()->get_int_type_id() << std::endl;
 */
 
+    // FIXME: Check for tiger syntax
     switch (op) {
         case Add:
             new_val = scalar_lhs->get_cur_value() + scalar_rhs->get_cur_value();
@@ -1027,10 +1034,12 @@ UB BinaryExpr::propagate_value () {
             break;
     }
 
+    // FIXME: Check for tiger syntax
     if (!new_val.has_ub()) {
         value = std::make_shared<ScalarVariable>("", IntegerType::init(new_val.get_int_type_id()));
         std::static_pointer_cast<ScalarVariable>(value)->set_cur_value(new_val);
     }
+    // FIXME: Check for tiger syntax
     else {
         value = std::make_shared<ScalarVariable>("", IntegerType::init(arg0->get_value()->get_type()->get_int_type_id()));
     }
@@ -1057,9 +1066,11 @@ UB BinaryExpr::propagate_value () {
 }
 
 void BinaryExpr::emit (std::ostream& stream, std::string offset) {
+    // FIXME: Check for tiger syntax
     stream << offset << "(";
     arg0->emit(stream);
     stream << ")";
+    // FIXME: Check for tiger syntax
     switch (op) {
         case Add:
             stream << " + ";
@@ -1120,6 +1131,7 @@ void BinaryExpr::emit (std::ostream& stream, std::string offset) {
             ERROR("bad op (BinaryExpr)");
             break;
         }
+        // FIXME: Check for tiger syntax
         stream << "(";
         arg1->emit(stream);
         stream << ")";
@@ -1158,6 +1170,7 @@ UB ConditionalExpr::propagate_value() {
 }
 
 void ConditionalExpr::emit (std::ostream& stream, std::string offset) {
+    // FIXME: Check for tiger syntax
     stream << offset << "((";
     condition->emit(stream);
     stream << ") ? (";
@@ -1311,6 +1324,7 @@ void MemberExpr::emit (std::ostream& stream, std::string offset) {
         if (struct_var->get_member_count() <= identifier) {
             ERROR("bad identifier (MemberExpr)");
         }
+        // FIXME: Check for tiger syntax
         stream << struct_var->get_name() + "." + struct_var->get_member(identifier)->get_name();
     }
     else {
@@ -1323,6 +1337,7 @@ void MemberExpr::emit (std::ostream& stream, std::string offset) {
             ERROR("bad identifier (MemberExpr)");
         }
         member_expr->emit(stream);
+        // FIXME: Check for tiger syntax
         stream << "." +  member_expr_struct->get_member(identifier)->get_name();
     }
 }
@@ -1355,6 +1370,7 @@ AddressOfExpr::AddressOfExpr(std::shared_ptr<Expr> expr) :
     value = std::make_shared<Pointer>("", addr_of_expr_value);
 }
 
+// FIXME: Check for tiger syntax
 void AddressOfExpr::emit (std::ostream& stream, std::string offset) {
     stream << offset;
     stream << "&(";
@@ -1372,6 +1388,7 @@ ExprStar::ExprStar(std::shared_ptr<Expr> expr) :
     value = std::static_pointer_cast<Pointer>(expr_star->get_value())->get_pointee();
 }
 
+// FIXME: Check for tiger syntax
 void ExprStar::emit (std::ostream& stream, std::string offset) {
     stream << offset;
     stream << "*(";

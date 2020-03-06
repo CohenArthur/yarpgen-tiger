@@ -152,6 +152,7 @@ Array::Array (std::string _name, std::shared_ptr<ArrayType> _type, std::shared_p
     init_elements(ctx);
 }
 
+// FIXME: Check for tiger syntax
 void Array::init_elements (std::shared_ptr<Context> ctx) {
     std::shared_ptr<ArrayType> array_type = std::static_pointer_cast<ArrayType>(type);
     std::shared_ptr<Type> base_type = array_type->get_base_type();

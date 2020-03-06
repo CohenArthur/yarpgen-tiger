@@ -231,6 +231,7 @@ void Program::form_extern_sym_table(std::shared_ptr<Context> ctx) {
     ptr_generation(ctx->get_extern_out_sym_table(), p->get_min_out_ptr_count(), p->get_max_out_ptr_count(), false);
 }
 
+// FIXME: Check for tiger syntax
 static std::string get_file_ext () {
     if (options->is_c())
         return "c";
@@ -239,6 +240,7 @@ static std::string get_file_ext () {
     ERROR("can't detect language subset");
 }
 
+// FIXME: Check for tiger syntax
 void Program::emit_decl () {
     std::ofstream out_file;
     out_file.open(out_folder + "/" + "init.h");
@@ -282,6 +284,7 @@ void Program::emit_decl () {
     out_file.close();
 }
 
+// FIXME: Check for tiger syntax
 void Program::emit_func () {
     std::ofstream out_file;
     out_file.open(out_folder + "/" + "func." + get_file_ext());
@@ -295,6 +298,7 @@ void Program::emit_func () {
     out_file.close();
 }
 
+// FIXME: Check for tiger syntax
 void Program::emit_main () {
     std::ofstream out_file;
     out_file.open(out_folder + "/" + "driver." + get_file_ext());
@@ -318,6 +322,7 @@ void Program::emit_main () {
     seed_decl->emit(out_file);
     out_file << "\n\n";
 
+    // FIXME: Check for tiger syntax
     out_file << "void hash(unsigned long long int *seed, unsigned long long int const v) {\n";
     out_file << "    *seed ^= v + 0x9e3779b9 + ((*seed)<<6) + ((*seed)>>2);\n";
     out_file << "}\n\n";
@@ -355,6 +360,7 @@ void Program::emit_main () {
         extern_inp_sym_table.at(i)->emit_struct_type_static_memb_def(out_file);
         out_file << "\n\n";
 
+        // FIXME: Check for tiger syntax
         out_file << "void " << NameHandler::common_test_func_prefix << i << "_init () {\n";
         extern_inp_sym_table.at(i)->emit_struct_init(out_file, "    ");
         extern_mix_sym_table.at(i)->emit_struct_init(out_file, "    ");
@@ -391,6 +397,7 @@ void Program::emit_main () {
     out_file << "\n";
     out_file << "int main () {\n";
     std::string tf_prefix;
+    // FIXME: Check for tiger syntax
     for (unsigned int i = 0; i < gen_policy.get_test_func_count(); ++i) {
         tf_prefix = NameHandler::common_test_func_prefix + std::to_string(i) + "_";
         out_file << "    " << tf_prefix << "init ();\n";

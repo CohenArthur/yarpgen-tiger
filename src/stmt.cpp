@@ -110,6 +110,7 @@ std::shared_ptr<DeclStmt> DeclStmt::generate (std::shared_ptr<Context> ctx,
 
 // This function creates list-initialization for structs in arrays
 static void emit_list_init_for_struct(std::ostream &stream, std::shared_ptr<Struct> struct_elem) {
+    // FIXME: Check for tiger syntax
     stream << "{";
     uint64_t member_count = struct_elem->get_member_count();
     for (unsigned int i = 0; i < member_count; ++i) {
@@ -137,11 +138,14 @@ static void emit_list_init_for_struct(std::ostream &stream, std::shared_ptr<Stru
                 break;
         }
         if (i < member_count - 1)
+        // FIXME: Check for tiger syntax
             stream << ", ";
     }
+    // FIXME: Check for tiger syntax
     stream << "} ";
 }
 
+// FIXME: Check for tiger syntax: Everywhere in that function
 void DeclStmt::emit (std::ostream& stream, std::string offset) {
     stream << offset;
     stream << (data->get_type()->get_is_static() && !is_extern ? "static " : "");
@@ -488,6 +492,7 @@ std::vector<std::shared_ptr<Expr>> ScopeStmt::extract_inp_and_mix_from_ctx(std::
     return ret;
 }
 
+// FIXME: Check for tiger syntax: Scopes
 void ScopeStmt::emit (std::ostream& stream, std::string offset) {
     stream << offset + "{\n";
     for (const auto &i : scope) {
@@ -520,6 +525,7 @@ std::shared_ptr<ExprStmt> ExprStmt::generate (std::shared_ptr<Context> ctx,
     return std::make_shared<ExprStmt>(assign_exp);
 }
 
+// FIXME: Check for tiger syntax: No semicolon
 void ExprStmt::emit (std::ostream& stream, std::string offset) {
     stream << offset;
     expr->emit(stream);
@@ -561,6 +567,7 @@ std::shared_ptr<IfStmt> IfStmt::generate (std::shared_ptr<Context> ctx,
     return std::make_shared<IfStmt>(cond, then_br, else_br);
 }
 
+// FIXME: Check for tiger syntax
 void IfStmt::emit (std::ostream& stream, std::string offset) {
     stream << offset << "if (";
     cond->emit(stream);
