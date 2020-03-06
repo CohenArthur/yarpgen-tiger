@@ -1,7 +1,5 @@
 *.pyc
 *~
-libyarpgen.a
-yarpgen
 objs
 res
 *.swp
@@ -12,3 +10,14 @@ testing_log_*
 gen_test_makefile_log_*
 statistics_*.log
 csmith_statistics_*.log
+
+# Ignore tags
+tags
+
+# Binary files
+yarpgen
+*.a
+*.o
+*.so
+objs
+res
