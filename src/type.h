@@ -375,7 +375,6 @@ class BitField : public IntegerType {
 
 // Following classes represents standard integer types and bool
 // TODO: maybe all this classes should be singletons?
-// FIXME: Fix propagation
 class TypeBOOL : public IntegerType {
     public:
         TypeBOOL () : IntegerType(BuiltinType::IntegerTypeID::BOOL) { init_type (); }
@@ -385,7 +384,7 @@ class TypeBOOL : public IntegerType {
 
     private:
         void init_type () {
-            name = "bool";
+            name = "int";
             suffix = "";
             min.val.bool_val = false;
             max.val.bool_val = true;

@@ -680,11 +680,11 @@ void UnaryExpr::emit (std::ostream& stream, std::string offset) {
     switch (op) {
         case PreInc:
         case PostInc:
-            op_str = "++";
+            op_str = "+ 1";
             break;
         case PreDec:
         case PostDec:
-            op_str = "--";
+            op_str = "- 1";
             break;
         case Plus:
             op_str = "+";
@@ -693,10 +693,10 @@ void UnaryExpr::emit (std::ostream& stream, std::string offset) {
             op_str = "-";
             break;
         case LogNot:
-            op_str = "!";
+            op_str = "<>";
             break;
         case BitNot:
-            op_str = "~";
+            op_str = "-";
             break;
         case MaxOp:
             ERROR("bad op (UnaryExpr)");
@@ -1087,11 +1087,10 @@ void BinaryExpr::emit (std::ostream& stream, std::string offset) {
         case Mod:
             stream << " % ";
             break;
+        /* We don't have these operators in Tiger */
         case Shl:
-            stream << " << ";
-            break;
         case Shr:
-            stream << " >> ";
+            stream << " + ";
             break;
         case Lt:
             stream << " < ";
@@ -1106,10 +1105,10 @@ void BinaryExpr::emit (std::ostream& stream, std::string offset) {
             stream << " >= ";
             break;
         case Eq:
-            stream << " == ";
+            stream << " = ";
             break;
         case Ne:
-            stream << " != ";
+            stream << " <> ";
             break;
         case BitAnd:
             stream << " & ";
