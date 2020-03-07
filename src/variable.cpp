@@ -164,7 +164,7 @@ void Array::init_elements (std::shared_ptr<Context> ctx) {
             ArrayType::ElementSubscript subs_type = rand_val_gen->get_rand_id(ctx->get_gen_policy()->
                                                                                    get_array_elem_subs_prob());
             if ((kind == ArrayType::STD_VEC || kind == ArrayType::STD_ARR) && subs_type == ArrayType::At)
-                return name + ".at(" + std::to_string(idx) + ")";
+                return name + "[" + std::to_string(idx) + "]";
         }
         return name + " [" + std::to_string(idx) + "]";
     };

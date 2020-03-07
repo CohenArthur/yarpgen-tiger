@@ -233,10 +233,8 @@ void Program::form_extern_sym_table(std::shared_ptr<Context> ctx) {
 
 // FIXME: Check for tiger syntax
 static std::string get_file_ext () {
-    if (options->is_c())
-        return "c";
-    else if (options->is_cxx())
-        return "cpp";
+    return "tig";
+
     ERROR("can't detect language subset");
 }
 
@@ -395,7 +393,7 @@ void Program::emit_main () {
     // Main
     //////////////////////////////////////////////////////////
     out_file << "\n";
-    out_file << "int main () {\n";
+    out_file << "function _main() = (";
     std::string tf_prefix;
     // FIXME: Check for tiger syntax
     for (unsigned int i = 0; i < gen_policy.get_test_func_count(); ++i) {
@@ -404,9 +402,7 @@ void Program::emit_main () {
         out_file << "    " << tf_prefix << "foo ();\n";
         out_file << "    " << tf_prefix << "checksum ();\n\n";
     }
-    out_file << "    printf(\"%llu\\n\", seed);\n";
-    out_file << "    return 0;\n";
-    out_file << "}\n";
+    out_file << ")\n";
 
     out_file.close();
 }

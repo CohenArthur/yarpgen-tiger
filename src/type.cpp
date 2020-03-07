@@ -30,26 +30,7 @@ using namespace yarpgen;
 // FIXME: Check for tiger syntax
 std::string Type::get_name () {
     std::string ret = "";
-    ret += is_static ? "static " : "";
-    switch (cv_qual) {
-        case CV_Qual::VOLAT:
-            ret += "volatile ";
-            break;
-        case CV_Qual::CONST:
-            ret += "const ";
-            break;
-        case CV_Qual::CONST_VOLAT:
-            ret += "const volatile ";
-            break;
-        case CV_Qual::NTHG:
-            break;
-        case CV_Qual::MAX_CV_QUAL:
-            ERROR("bad cv_qual (Type)");
-            break;
-    }
     ret += name;
-    if (align != 0)
-        ret += " __attribute__(aligned(" + std::to_string(align) + "))";
     return ret;
 }
 
@@ -92,19 +73,17 @@ std::string StructType::StructMember::get_definition (std::string offset) {
 // FIXME: Check for tiger syntax
 std::string StructType::get_definition (std::string offset) {
     std::string ret = "";
-    if (options->is_c())
-        ret += "typedef ";
-    ret += "struct ";
+    ret += "type ";
     if (options->is_cxx())
         ret += name;
     ret += " {\n";
     for (auto i : shadow_members) {
-        ret += i->get_definition(offset + "    ") + ";\n";
+        ret += i->get_definition(offset + "    ") + ",\n";
     }
     ret += "}";
     if (options->is_c())
         ret += " " + name;
-    ret += ";\n";
+    ret += "\n";
     return ret;
 }
 
@@ -2100,15 +2079,15 @@ ArrayType::ArrayType(std::shared_ptr<Type> _base_type, uint32_t _size, Kind _kin
         case C_ARR:
             break;
         case VAL_ARR:
-            name = "std::valarray<";
+            name = "";
             options->include_valarray = true;
             break;
         case STD_ARR:
-            name = "std::array<";
+            name = "";
             options->include_array = true;
             break;
         case STD_VEC:
-            name = "std::vector<";
+            name = "";
             options->include_vector = true;
             break;
         case MAX_KIND:
@@ -2124,7 +2103,7 @@ ArrayType::ArrayType(std::shared_ptr<Type> _base_type, uint32_t _size, Kind _kin
             break;
         case VAL_ARR:
         case STD_VEC:
-            name += ">";
+            name += "";
             break;
         case STD_ARR:
             name += ", " + std::to_string(size) + ">";
