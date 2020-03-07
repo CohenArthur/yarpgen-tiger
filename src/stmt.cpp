@@ -148,25 +148,8 @@ static void emit_list_init_for_struct(std::ostream &stream, std::shared_ptr<Stru
 // FIXME: Check for tiger syntax: Everywhere in that function
 void DeclStmt::emit (std::ostream& stream, std::string offset) {
     stream << offset;
-    stream << (data->get_type()->get_is_static() && !is_extern ? "static " : "");
-    stream << (is_extern ? "extern " : "");
-    switch (data->get_type()->get_cv_qual()) {
-        case Type::CV_Qual::VOLAT:
-            stream << "volatile ";
-            break;
-        case Type::CV_Qual::CONST:
-            stream << "const ";
-            break;
-        case Type::CV_Qual::CONST_VOLAT:
-            stream << "const volatile ";
-            break;
-        case Type::CV_Qual::NTHG:
-            break;
-        case Type::CV_Qual::MAX_CV_QUAL:
-            ERROR("bad cv_qual (DeclStmt)");
-            break;
-    }
-    stream << data->get_type()->get_simple_name() + " " + data->get_name() + data->get_type()->get_type_suffix();
+    /* Variable declaration */
+    stream << "var " << data->get_name() << " : " << data->get_type()->get_simple_name() + data->get_type()->get_type_suffix();
     if (data->get_type()->get_align() != 0 && is_extern) // TODO: Should we set __attribute__ to non-extern variable?
         stream << " __attribute__((aligned(" + std::to_string(data->get_type()->get_align()) + ")))";
     if (init != nullptr &&
@@ -180,7 +163,8 @@ void DeclStmt::emit (std::ostream& stream, std::string offset) {
         if (is_extern) {
             ERROR("init of extern var (DeclStmt)");
         }
-        stream << " = ";
+        /* Assignation operator */
+        stream << " := ";
         init->emit(stream);
     }
     if (data->get_class_id() == Data::VarClassID::ARRAY && !is_extern) {
