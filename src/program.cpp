@@ -231,7 +231,7 @@ void Program::form_extern_sym_table(std::shared_ptr<Context> ctx) {
     ptr_generation(ctx->get_extern_out_sym_table(), p->get_min_out_ptr_count(), p->get_max_out_ptr_count(), false);
 }
 
-// FIXME: Check for tiger syntax
+// FIXME: Add extension for tih
 static std::string get_file_ext () {
     return "tig";
 
