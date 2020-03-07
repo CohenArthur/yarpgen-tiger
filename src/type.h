@@ -31,6 +31,26 @@ class Data;
 class ScalarVariable;
 class Struct;
 
+#define INT_CLASS(Name)                                                      \
+   public:                                                                   \
+    Name() : IntegerType(BuiltinType::IntegerTypeID::INT) { init_type(); }   \
+    Name(CV_Qual _cv_qual, bool _is_static, uint32_t _align)                 \
+        : IntegerType(BuiltinType::IntegerTypeID::INT, _cv_qual, _is_static, \
+                      _align) {                                              \
+        init_type();                                                         \
+    }                                                                        \
+    void dbg_dump();                                                         \
+                                                                             \
+   private:                                                                  \
+    void init_type() {                                                       \
+        name = "int";                                                        \
+        suffix = "";                                                         \
+        min.val.int_val = INT_MIN;                                           \
+        max.val.int_val = INT_MAX;                                           \
+        bit_size = sizeof(int) * CHAR_BIT;                                   \
+        is_signed = true;                                                    \
+    }
+
 // Abstract class, serves as a common ancestor for all types.
 class Type {
     public:
@@ -353,9 +373,9 @@ class BitField : public IntegerType {
         uint32_t bit_field_width;
 };
 
-// FIXME: Check for tiger syntax
 // Following classes represents standard integer types and bool
 // TODO: maybe all this classes should be singletons?
+// FIXME: Fix propagation
 class TypeBOOL : public IntegerType {
     public:
         TypeBOOL () : IntegerType(BuiltinType::IntegerTypeID::BOOL) { init_type (); }
@@ -374,208 +394,44 @@ class TypeBOOL : public IntegerType {
         }
 };
 
-// FIXME: Check for tiger syntax
 class TypeCHAR : public IntegerType {
-    public:
-        TypeCHAR () : IntegerType(BuiltinType::IntegerTypeID::CHAR) { init_type (); }
-        TypeCHAR (CV_Qual _cv_qual, bool _is_static, uint32_t _align) :
-                  IntegerType(BuiltinType::IntegerTypeID::CHAR, _cv_qual, _is_static, _align) { init_type (); }
-        void dbg_dump ();
-
-    private:
-        void init_type () {
-            name = "signed char";
-            suffix = "";
-            min.val.char_val = SCHAR_MIN;
-            max.val.char_val = SCHAR_MAX;
-            bit_size = sizeof (char) * CHAR_BIT;
-            is_signed = true;
-        }
+    INT_CLASS(TypeCHAR);
 };
 
-// FIXME: Check for tiger syntax
 class TypeUCHAR : public IntegerType {
-    public:
-        TypeUCHAR () : IntegerType(BuiltinType::IntegerTypeID::UCHAR) { init_type (); }
-        TypeUCHAR (CV_Qual _cv_qual, bool _is_static, uint32_t _align) :
-                   IntegerType(BuiltinType::IntegerTypeID::UCHAR, _cv_qual, _is_static, _align) { init_type (); }
-        void dbg_dump ();
-
-    private:
-        void init_type () {
-            name = "unsigned char";
-            suffix = "";
-            min.val.uchar_val = 0;
-            max.val.uchar_val = UCHAR_MAX;
-            bit_size = sizeof (unsigned char) * CHAR_BIT;
-            is_signed = false;
-        }
+    INT_CLASS(TypeUCHAR);
 };
 
-// FIXME: Check for tiger syntax
 class TypeSHRT : public IntegerType {
-    public:
-        TypeSHRT () : IntegerType(BuiltinType::IntegerTypeID::SHRT) { init_type (); }
-        TypeSHRT (CV_Qual _cv_qual, bool _is_static, uint32_t _align) :
-                  IntegerType(BuiltinType::IntegerTypeID::SHRT, _cv_qual, _is_static, _align) { init_type (); }
-        void dbg_dump ();
-
-    private:
-        void init_type () {
-            name = "short";
-            suffix = "";
-            min.val.shrt_val = SHRT_MIN;
-            max.val.shrt_val = SHRT_MAX;
-            bit_size = sizeof (short) * CHAR_BIT;
-            is_signed = true;
-        }
+    INT_CLASS(TypeSHRT);
 };
 
-// FIXME: Check for tiger syntax
 class TypeUSHRT : public IntegerType {
-    public:
-        TypeUSHRT () : IntegerType(BuiltinType::IntegerTypeID::USHRT) { init_type (); }
-        TypeUSHRT (CV_Qual _cv_qual, bool _is_static, uint32_t _align) :
-                   IntegerType(BuiltinType::IntegerTypeID::USHRT, _cv_qual, _is_static, _align) { init_type (); }
-        void dbg_dump ();
-
-    private:
-        void init_type () {
-            name = "unsigned short";
-            suffix = "";
-            min.val.ushrt_val = 0;
-            max.val.ushrt_val = USHRT_MAX;
-            bit_size = sizeof (unsigned short) * CHAR_BIT;
-            is_signed = false;
-        }
+    INT_CLASS(TypeUSHRT);
 };
 
-// FIXME: Check for tiger syntax
 class TypeINT : public IntegerType {
-    public:
-        TypeINT () : IntegerType(BuiltinType::IntegerTypeID::INT) { init_type (); }
-        TypeINT (CV_Qual _cv_qual, bool _is_static, uint32_t _align) :
-                 IntegerType(BuiltinType::IntegerTypeID::INT, _cv_qual, _is_static, _align) { init_type (); }
-        void dbg_dump ();
-
-    private:
-        void init_type () {
-            name = "int";
-            suffix = "";
-            min.val.int_val = INT_MIN;
-            max.val.int_val = INT_MAX;
-            bit_size = sizeof (int) * CHAR_BIT;
-            is_signed = true;
-        }
+    INT_CLASS(TypeINT);
 };
 
-// FIXME: Check for tiger syntax
 class TypeUINT : public IntegerType {
-    public:
-        TypeUINT () : IntegerType(BuiltinType::IntegerTypeID::UINT) { init_type (); }
-        TypeUINT (CV_Qual _cv_qual, bool _is_static, uint32_t _align) :
-                  IntegerType(BuiltinType::IntegerTypeID::UINT, _cv_qual, _is_static, _align) { init_type (); }
-        void dbg_dump ();
-
-    private:
-        void init_type () {
-            name = "unsigned int";
-            suffix = "U";
-            min.val.uint_val = 0;
-            max.val.uint_val = UINT_MAX;
-            bit_size = sizeof (unsigned int) * CHAR_BIT;
-            is_signed = false;
-        }
+    INT_CLASS(TypeUINT);
 };
 
-// FIXME: Check for tiger syntax
 class TypeLINT : public IntegerType {
-    public:
-        TypeLINT () : IntegerType(BuiltinType::IntegerTypeID::LINT) { init_type (); }
-        TypeLINT (CV_Qual _cv_qual, bool _is_static, uint32_t _align) :
-                  IntegerType(BuiltinType::IntegerTypeID::LINT, _cv_qual, _is_static, _align) { init_type (); }
-        void dbg_dump ();
-
-    private:
-        void init_type () {
-            name = "long int";
-            suffix = "L";
-            if (options->mode_64bit) {
-                bit_size = sizeof(long long int) * CHAR_BIT;
-                min.val.lint64_val = LLONG_MIN;
-                max.val.lint64_val = LLONG_MAX;
-            }
-            else {
-                bit_size = sizeof(int) * CHAR_BIT;
-                min.val.lint32_val = INT_MIN;
-                max.val.lint32_val = INT_MAX;
-            }
-            is_signed = true;
-        }
+    INT_CLASS(TypeLINT);
 };
 
-// FIXME: Check for tiger syntax
 class TypeULINT : public IntegerType {
-    public:
-        TypeULINT () : IntegerType(BuiltinType::IntegerTypeID::ULINT) { init_type (); }
-        TypeULINT (CV_Qual _cv_qual, bool _is_static, uint32_t _align) :
-                   IntegerType(BuiltinType::IntegerTypeID::ULINT, _cv_qual, _is_static, _align) { init_type (); }
-        void dbg_dump ();
-
-    private:
-        void init_type () {
-            name = "unsigned long int";
-            suffix = "UL";
-            if (options->mode_64bit) {
-                bit_size = sizeof (unsigned long long int) * CHAR_BIT;
-                min.val.ulint64_val = 0;
-                max.val.ulint64_val = ULLONG_MAX;
-            }
-            else {
-                bit_size = sizeof(unsigned int) * CHAR_BIT;
-                min.val.ulint32_val = 0;
-                max.val.ulint32_val = UINT_MAX;
-            }
-            is_signed = false;
-        }
+    INT_CLASS(TypeULINT);
 };
 
-// FIXME: Check for tiger syntax
 class TypeLLINT : public IntegerType {
-    public:
-        TypeLLINT () : IntegerType(BuiltinType::IntegerTypeID::LLINT) { init_type (); }
-        TypeLLINT (CV_Qual _cv_qual, bool _is_static, uint32_t _align) :
-                   IntegerType(BuiltinType::IntegerTypeID::LLINT, _cv_qual, _is_static, _align) { init_type (); }
-        void dbg_dump ();
-
-    private:
-        void init_type () {
-            name = "long long int";
-            suffix = "LL";
-            min.val.llint_val = LLONG_MIN;
-            max.val.llint_val = LLONG_MAX;
-            bit_size = sizeof (long long int) * CHAR_BIT;
-            is_signed = true;
-        }
+    INT_CLASS(TypeLLINT);
 };
 
-// FIXME: Check for tiger syntax
 class TypeULLINT : public IntegerType {
-    public:
-        TypeULLINT () : IntegerType(BuiltinType::IntegerTypeID::ULLINT) { init_type (); }
-        TypeULLINT (CV_Qual _cv_qual, bool _is_static, uint32_t _align) :
-                    IntegerType(BuiltinType::IntegerTypeID::ULLINT, _cv_qual, _is_static, _align) { init_type (); }
-        void dbg_dump ();
-
-    private:
-        void init_type () {
-            name = "unsigned long long int";
-            suffix = "ULL";
-            min.val.ullint_val = 0;
-            max.val.ullint_val = ULLONG_MAX;
-            bit_size = sizeof (unsigned long long int) * CHAR_BIT;
-            is_signed = false;
-        }
+    INT_CLASS(TypeULLINT);
 };
 
 // FIXME: Check for tiger syntax

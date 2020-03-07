@@ -2001,7 +2001,6 @@ bool BitField::can_fit_in_int (BuiltinType::ScalarTypedVal val, bool is_unsigned
     }
 }
 
-// FIXME: Check for tiger syntax
 void BitField::dbg_dump () {
     std::string ret = "";
     ret += "name: " + name + "\n";
