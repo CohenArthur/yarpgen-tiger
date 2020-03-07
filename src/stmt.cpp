@@ -221,7 +221,8 @@ void DeclStmt::emit (std::ostream& stream, std::string offset) {
             stream << ")";
         }
     }
-    stream << ";";
+    // Add to add separators between declarations */
+    // stream << "\n";
 }
 
 // This function returns ExprStar for nested pointers up to base variable
@@ -529,7 +530,7 @@ std::shared_ptr<ExprStmt> ExprStmt::generate (std::shared_ptr<Context> ctx,
 void ExprStmt::emit (std::ostream& stream, std::string offset) {
     stream << offset;
     expr->emit(stream);
-    stream << ";";
+    stream << "\n";
 }
 
 bool IfStmt::count_if_taken (std::shared_ptr<Expr> cond) {
