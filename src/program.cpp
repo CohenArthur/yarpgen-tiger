@@ -241,13 +241,7 @@ static std::string get_file_ext () {
 // FIXME: Check for tiger syntax
 void Program::emit_decl () {
     std::ofstream out_file;
-    out_file.open(out_folder + "/" + "init.h");
-    if (options->include_valarray)
-        out_file << "#include <valarray>\n\n";
-    if (options->include_vector)
-        out_file << "#include <vector>\n\n";
-    if (options->include_array)
-        out_file << "#include <array>\n\n";
+    out_file.open(out_folder + "/" + "init.tih");
 
     for (unsigned int i = 0; i < gen_policy.get_test_func_count(); ++i) {
         extern_inp_sym_table.at(i)->emit_variable_extern_decl(out_file);
@@ -286,13 +280,15 @@ void Program::emit_decl () {
 void Program::emit_func () {
     std::ofstream out_file;
     out_file.open(out_folder + "/" + "func." + get_file_ext());
-    out_file << "#include \"init.h\"\n\n";
+    out_file << "let\n    import \"init.tih\"\nin\n";
 
     for (unsigned int i = 0; i < gen_policy.get_test_func_count(); ++i) {
-        out_file << "function " << NameHandler::common_test_func_prefix << i << "_foo() =\n";
-        functions.at(i)->emit(out_file);
+        out_file << "    function " << NameHandler::common_test_func_prefix << i << "_foo() =\n";
+        functions.at(i)->emit(out_file, "    ");
         out_file << "\n";
     }
+
+    out_file << "end";
     out_file.close();
 }
 
