@@ -555,9 +555,9 @@ std::shared_ptr<IfStmt> IfStmt::generate (std::shared_ptr<Context> ctx,
 
 // FIXME: Check for tiger syntax
 void IfStmt::emit (std::ostream& stream, std::string offset) {
-    stream << offset << "if (";
+    stream << offset << "if ";
     cond->emit(stream);
-    stream << ")\n";
+    stream << "\n";
     if_branch->emit(stream, offset);
     if (else_branch != nullptr) {
         stream << offset + "else\n";
