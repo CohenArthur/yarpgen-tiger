@@ -289,7 +289,7 @@ void Program::emit_func () {
     out_file << "#include \"init.h\"\n\n";
 
     for (unsigned int i = 0; i < gen_policy.get_test_func_count(); ++i) {
-        out_file << "void " << NameHandler::common_test_func_prefix << i << "_foo ()\n";
+        out_file << "function " << NameHandler::common_test_func_prefix << i << "_foo() =\n";
         functions.at(i)->emit(out_file);
         out_file << "\n";
     }
@@ -320,10 +320,10 @@ void Program::emit_main () {
     seed_decl->emit(out_file);
     out_file << "\n\n";
 
-    // FIXME: Check for tiger syntax
-    out_file << "void hash(unsigned long long int *seed, unsigned long long int const v) {\n";
-    out_file << "    *seed ^= v + 0x9e3779b9 + ((*seed)<<6) + ((*seed)>>2);\n";
-    out_file << "}\n\n";
+    // FIXME: This is a really bad hash function
+    out_file << "function hash(seed : int, v : int) : int = (\n";
+    out_file << "    seed = seed * 2;\n";
+    out_file << ")\n\n";
 
     for (unsigned int i = 0; i < gen_policy.get_test_func_count(); ++i) {
         // Definitions and initialization
@@ -359,15 +359,15 @@ void Program::emit_main () {
         out_file << "\n\n";
 
         // FIXME: Check for tiger syntax
-        out_file << "void " << NameHandler::common_test_func_prefix << i << "_init () {\n";
+        out_file << "function " << NameHandler::common_test_func_prefix << i << "_init () = (\n";
         extern_inp_sym_table.at(i)->emit_struct_init(out_file, "    ");
         extern_mix_sym_table.at(i)->emit_struct_init(out_file, "    ");
         extern_out_sym_table.at(i)->emit_struct_init(out_file, "    ");
-        out_file << "}\n\n";
+        out_file << ")\n\n";
 
         // Check
         //////////////////////////////////////////////////////////
-        out_file << "void " << NameHandler::common_test_func_prefix << i << "_checksum () {\n";
+        out_file << "function " << NameHandler::common_test_func_prefix << i << "_checksum () = (\n";
 
         // Because struct types are duplicated over all symbol tables,
         // it is enough to check static members in only one
@@ -385,9 +385,10 @@ void Program::emit_main () {
         extern_mix_sym_table.at(i)->emit_ptr_check(out_file, "    ");
         extern_out_sym_table.at(i)->emit_ptr_check(out_file, "    ");
 
-        out_file << "}\n\n";
+        out_file << ")\n\n";
 
-        out_file << "extern void " << NameHandler::common_test_func_prefix << i << "_foo ();\n\n";
+        // FIXME: Check if needed for Tiger
+        out_file << "function " << NameHandler::common_test_func_prefix << i << "_foo ()\n\n";
     }
 
     // Main
