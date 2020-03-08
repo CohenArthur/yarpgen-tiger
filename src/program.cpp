@@ -280,7 +280,7 @@ void Program::emit_decl () {
 void Program::emit_func () {
     std::ofstream out_file;
     out_file.open(out_folder + "/" + "func." + get_file_ext());
-    out_file << "let\n    import \"init.tih\"\nin\n";
+    out_file << "let\n    import \"init.tih\"\n\n";
 
     for (unsigned int i = 0; i < gen_policy.get_test_func_count(); ++i) {
         out_file << "    function " << NameHandler::common_test_func_prefix << i << "_foo() =\n";
@@ -288,7 +288,7 @@ void Program::emit_func () {
         out_file << "\n";
     }
 
-    out_file << "end";
+    out_file << "in\nend";
     out_file.close();
 }
 
@@ -299,8 +299,7 @@ void Program::emit_main () {
 
     // Headers
     //////////////////////////////////////////////////////////
-    out_file << "#include <stdio.h>\n";
-    out_file << "#include \"init.h\"\n\n";
+    out_file << "let\n    import \"init.h\"\n\n";
 
     // Hash
     //////////////////////////////////////////////////////////
@@ -399,7 +398,7 @@ void Program::emit_main () {
         out_file << "    " << tf_prefix << "foo ();\n";
         out_file << "    " << tf_prefix << "checksum ();\n\n";
     }
-    out_file << ")\n";
+    out_file << ")\nin\nend";
 
     out_file.close();
 }
