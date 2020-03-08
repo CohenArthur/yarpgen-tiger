@@ -111,7 +111,7 @@ std::shared_ptr<DeclStmt> DeclStmt::generate (std::shared_ptr<Context> ctx,
 // This function creates list-initialization for structs in arrays
 static void emit_list_init_for_struct(std::ostream &stream, std::shared_ptr<Struct> struct_elem) {
     // FIXME: Check for tiger syntax
-    stream << "{";
+    stream << "(";
     uint64_t member_count = struct_elem->get_member_count();
     for (unsigned int i = 0; i < member_count; ++i) {
         std::shared_ptr<Data> member = struct_elem->get_member(i);
@@ -142,7 +142,7 @@ static void emit_list_init_for_struct(std::ostream &stream, std::shared_ptr<Stru
             stream << ", ";
     }
     // FIXME: Check for tiger syntax
-    stream << "} ";
+    stream << ") ";
 }
 
 // FIXME: Check for tiger syntax: Everywhere in that function
@@ -175,6 +175,7 @@ void DeclStmt::emit (std::ostream& stream, std::string offset) {
             std::shared_ptr<ArrayType> array_type = std::static_pointer_cast<ArrayType>(array->get_type());
             uint64_t array_elements_count = array->get_elements_count();
             // std::array requires additional curly brackets in list-initialization
+            // FIXME: Check Tiger syntax
             if (array_type->get_kind() == ArrayType::STD_ARR)
                 stream << "{";
 
@@ -479,12 +480,12 @@ std::vector<std::shared_ptr<Expr>> ScopeStmt::extract_inp_and_mix_from_ctx(std::
 
 // FIXME: Check for tiger syntax: Scopes
 void ScopeStmt::emit (std::ostream& stream, std::string offset) {
-    stream << offset + "{\n";
+    stream << offset + "(\n";
     for (const auto &i : scope) {
         i->emit(stream, offset + "    ");
         stream << "\n";
     }
-    stream << offset + "}\n";
+    stream << offset + ")\n";
 }
 
 // This function randomly creates new AssignExpr and wraps it to ExprStmt.
